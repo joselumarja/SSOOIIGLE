@@ -17,5 +17,5 @@ MatchInfo::~MatchInfo()
 
 std::string MatchInfo::getString()
 {
-	return std::string(":: line " + std::to_string(Line) + " :: ... " + PreviousWord + " " + MatchingWord + " " + NextWord + " ...");
+	return std::string(":: line " + std::to_string(Line) + ":: ... " + PreviousWord + " " + MatchingWord + " " + NextWord + " ...");
 }

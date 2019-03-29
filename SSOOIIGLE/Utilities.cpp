@@ -30,7 +30,7 @@ int countFileLines(std::string FilePath)
 
 void seekFileLine(std::ifstream & File, unsigned int LineNumber)
 {
-	for (int i = 0; i < LineNumber; i++)
+	for (unsigned int i = 0; i < LineNumber; i++)
 	{
 		File.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
