@@ -6,10 +6,10 @@
 #include <iterator>
 #include <sstream>
 
-SearchingThread::SearchingThread(ThreadInfo* ThrInfo, std::shared_ptr<std::mutex> MutexPointer)
+SearchingThread::SearchingThread(ThreadInfo* ThrInfo, std::mutex *Mutex)
 {	
 	this->ThrInfo = ThrInfo;
-	this->MutexPointer = MutexPointer;
+	this->Mutex = Mutex;
 	CurrentLine = -1;
 }
 
@@ -55,7 +55,7 @@ void SearchingThread::createMatch(std::string PreviousWord, std::string Matching
 {
 	MatchInfo Match(CurrentLine, PreviousWord, MatchingWord, NextWord);
 
-	std::lock_guard<std::mutex> lock(*MutexPointer);
+	std::lock_guard<std::mutex> lock(*Mutex);
 
 	(*ThrInfo).addToMatchs(Match);
 }
