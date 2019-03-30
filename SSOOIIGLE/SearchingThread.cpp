@@ -6,8 +6,8 @@
 #include <iterator>
 #include <sstream>
 
-SearchingThread::SearchingThread(ThreadInfo & ThrInfo, std::shared_ptr<std::mutex> &MutexPointer)
-{
+SearchingThread::SearchingThread(ThreadInfo* ThrInfo, std::shared_ptr<std::mutex> MutexPointer)
+{	
 	this->ThrInfo = ThrInfo;
 	this->MutexPointer = MutexPointer;
 	CurrentLine = -1;
@@ -22,20 +22,20 @@ void SearchingThread::initTask()
 {
 	std::ifstream File;
 	std::string Buffer;
-	int Line = ThrInfo.getStartLine();
-	int FinalLine = ThrInfo.getFinalLine();
+	unsigned int Line = (*ThrInfo).getStartLine();
+	unsigned int FinalLine = (*ThrInfo).getFinalLine();
 
-	File.open(ThrInfo.getFilePath(), std::ios::in);
+	File.open((*ThrInfo).getFilePath(), std::ios::in);
 
 	if (!File.is_open())
 	{
-		std::cerr << "Fail opening the file: " << ThrInfo.getFilePath() << std::endl;
+		std::cerr << "Fail opening the file: " << (*ThrInfo).getFilePath() << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
 	seekFileLine(File, Line);
 
-	while (!File.eof() && Line < FinalLine)
+	while (!File.eof() && Line <= FinalLine)
 	{
 		std::getline(File, Buffer);
 		CurrentLine = Line;
@@ -57,7 +57,7 @@ void SearchingThread::createMatch(std::string PreviousWord, std::string Matching
 
 	std::lock_guard<std::mutex> lock(*MutexPointer);
 
-	ThrInfo.addToMatchs(Match);
+	(*ThrInfo).addToMatchs(Match);
 }
 
 void SearchingThread::analyzeLine(std::string Line)
@@ -101,7 +101,7 @@ void SearchingThread::analyzeLine(std::string Line)
 bool SearchingThread::analyzeWord(std::string Word)
 {
 	unsigned int PositionCounter = 0;
-	std::string WordToFind = ThrInfo.getWordToFind();
+	std::string WordToFind = (*ThrInfo).getWordToFind();
 	SearchingState State = SearchingState::WrongWord;
 
 	if (Word[0] == WordToFind[0])
@@ -109,7 +109,7 @@ bool SearchingThread::analyzeWord(std::string Word)
 		State = SearchingState::ComparingWords;
 		PositionCounter++;
 	}
-	else if(ThrInfo.isAAllowedCharacter(Word[0]))
+	else if((*ThrInfo).isAAllowedCharacter(Word[0]))
 	{
 		State = SearchingState::AllowedCharacter;
 	}
@@ -124,7 +124,7 @@ bool SearchingThread::analyzeWord(std::string Word)
 				State = SearchingState::ComparingWords;
 				PositionCounter++;
 			}
-			else if (!ThrInfo.isAAllowedCharacter(Word[0]))
+			else if (!(*ThrInfo).isAAllowedCharacter(Word[0]))
 			{
 				State = SearchingState::WrongWord;
 			}
@@ -143,7 +143,7 @@ bool SearchingThread::analyzeWord(std::string Word)
 			}
 			break;
 		case SearchingState::PatternFinded:
-			if (!ThrInfo.isAAllowedCharacter(Word[i]))
+			if (!(*ThrInfo).isAAllowedCharacter(Word[i]))
 			{
 				State = SearchingState::WrongWord;
 			}

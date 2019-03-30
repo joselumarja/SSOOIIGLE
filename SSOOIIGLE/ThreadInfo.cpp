@@ -1,7 +1,17 @@
 #include "pch.h"
 #include "ThreadInfo.h"
 
-ThreadInfo::ThreadInfo(int ThreadNumber, int StartLine, int FinalLine, std::string FilePath, std::string WordToFind)
+ThreadInfo::ThreadInfo(unsigned int ThreadNumbe, unsigned int StartLine, unsigned int FinalLine, std::string FilePath, std::string WordToFind)
+{
+	ThreadNumber = ThreadNumbe;
+	this->StartLine = StartLine;
+	this->FinalLine = FinalLine;
+	this->FilePath = FilePath;
+	WordToFind = WordToFind;
+	MatchInfoQueue = std::queue<MatchInfo>();
+}
+
+ThreadInfo::ThreadInfo(unsigned int ThreadNumber, unsigned int StartLine, unsigned int FinalLine, std::string FilePath, std::string WordToFind, std::vector<char> & AllowedCharacterList)
 {
 	this->ThreadNumber = ThreadNumber;
 	this->StartLine = StartLine;
@@ -9,11 +19,6 @@ ThreadInfo::ThreadInfo(int ThreadNumber, int StartLine, int FinalLine, std::stri
 	this->FilePath = FilePath;
 	this->WordToFind = WordToFind;
 	MatchInfoQueue = std::queue<MatchInfo>();
-}
-
-ThreadInfo::ThreadInfo(int ThreadNumber, int StartLine, int FinalLine, std::string FilePath, std::string WordToFind, std::vector<char> & AllowedCharacterList)
-{
-	ThreadInfo(ThreadNumber, StartLine, FinalLine, FilePath, WordToFind);
 	this->AllowedCharacterList = AllowedCharacterList;
 }
 
@@ -21,17 +26,27 @@ ThreadInfo::ThreadInfo()
 {
 }
 
+void ThreadInfo::operator=(ThreadInfo & Thr)
+{
+	this->ThreadNumber = Thr.ThreadNumber;
+	this->StartLine = Thr.StartLine;
+	this->FinalLine = Thr.FinalLine;
+	this->FilePath = Thr.FilePath;
+	this->WordToFind = Thr.WordToFind;
+	this->AllowedCharacterList = AllowedCharacterList;
+	this->MatchInfoQueue = Thr.MatchInfoQueue;
+}
 
 ThreadInfo::~ThreadInfo()
 {
 }
 
-int ThreadInfo::getStartLine()
+unsigned int ThreadInfo::getStartLine()
 {
 	return StartLine;
 }
 
-int ThreadInfo::getFinalLine()
+unsigned int ThreadInfo::getFinalLine()
 {
 	return FinalLine;
 }
@@ -41,18 +56,14 @@ std::string ThreadInfo::getFilePath()
 	return FilePath;
 }
 
-std::string ThreadInfo::getWordToFind()
-{
-	return WordToFind;
-}
-
 void ThreadInfo::printInfo()
 {
 	std::string ThreadInfoString= "[Thread " + std::to_string(ThreadNumber) + " start: " + std::to_string(StartLine) + " -  end: " + std::to_string(FinalLine) + "] ";
 
 	while (!MatchInfoQueue.empty())
 	{
-		std::cout << ThreadInfoString << MatchInfoQueue.front().getString();
+		std::cout << ThreadInfoString << MatchInfoQueue.front().getString()<<std::endl;
+		MatchInfoQueue.pop();
 	}
 }
 

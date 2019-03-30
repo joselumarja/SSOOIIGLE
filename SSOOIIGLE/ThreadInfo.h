@@ -9,25 +9,26 @@
 class ThreadInfo
 {
 public:
-	ThreadInfo(int ThreadNumber, int StartLine, int FinalLine, std::string FilePath, std::string WordToFind);
-	ThreadInfo(int ThreadNumber, int StartLine, int FinalLine, std::string FilePath, std::string WordToFind, std::vector<char> & AllowedCharacterList);
+	ThreadInfo(unsigned int ThreadNumber,unsigned int StartLine,unsigned int FinalLine, std::string FilePath, std::string WordToFind);
+	ThreadInfo(unsigned int ThreadNumber,unsigned int StartLine, unsigned int FinalLine, std::string FilePath, std::string WordToFind, std::vector<char> & AllowedCharacterList);
 	ThreadInfo();
 	~ThreadInfo();
+	ThreadInfo(const ThreadInfo&) = default;
 
-	int getStartLine();
-	int getFinalLine();
+	unsigned int getStartLine();
+	unsigned int getFinalLine();
 	std::string getFilePath();
-	std::string getWordToFind();
+	inline std::string getWordToFind() { return WordToFind; }
 
 	void printInfo();
-
+	void operator =(ThreadInfo &Thr);
 	const bool isAAllowedCharacter(char charToCheck);
 	void addToMatchs(MatchInfo Match);
 
 private:
-	int ThreadNumber;
-	int StartLine;
-	int FinalLine;
+	unsigned int ThreadNumber;
+	unsigned int StartLine;
+	unsigned int FinalLine;
 	std::string FilePath;
 	std::string WordToFind;
 	std::vector<char> AllowedCharacterList;

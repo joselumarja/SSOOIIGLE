@@ -15,12 +15,12 @@ enum class SearchingState
 class SearchingThread
 {
 public:
-	SearchingThread(ThreadInfo &ThrInfo, std::shared_ptr<std::mutex> &MutexPointer);
+	SearchingThread(ThreadInfo* ThrInfo, std::shared_ptr<std::mutex> MutexPointer);
 	void operator()();
 	void initTask();
 	~SearchingThread();
 private:
-	ThreadInfo ThrInfo;
+	ThreadInfo* ThrInfo;
 	std::shared_ptr<std::mutex> MutexPointer;
 	int CurrentLine;
 

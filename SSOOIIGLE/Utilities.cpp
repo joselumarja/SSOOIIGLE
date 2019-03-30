@@ -3,10 +3,10 @@
 #include <fstream>
 #include <iostream>
 
-int countFileLines(std::string FilePath)
+unsigned int countFileLines(std::string FilePath)
 {
 	std::ifstream File;
-	int LinesCounter = 0;
+	unsigned int LinesCounter = 0;
 	std::string Buffer;
 
 	File.open(FilePath, std::ios::in);
