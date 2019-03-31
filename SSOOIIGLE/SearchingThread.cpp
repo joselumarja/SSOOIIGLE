@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SearchingThread.h"
 #include "Utilities.h"
+#include <ctype.h>
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -104,7 +105,7 @@ bool SearchingThread::analyzeWord(std::string Word)
 	std::string WordToFind = (*ThrInfo).getWordToFind();
 	SearchingState State = SearchingState::WrongWord;
 
-	if (Word[0] == WordToFind[0])
+	if (tolower(Word[0]) == tolower(WordToFind[0]))
 	{
 		State = SearchingState::ComparingWords;
 		PositionCounter++;
@@ -119,7 +120,7 @@ bool SearchingThread::analyzeWord(std::string Word)
 		switch (State) 
 		{
 		case SearchingState::AllowedCharacter:
-			if (Word[i] == WordToFind[PositionCounter])
+			if (tolower(Word[i]) == tolower(WordToFind[PositionCounter]))
 			{
 				State = SearchingState::ComparingWords;
 				PositionCounter++;
@@ -130,7 +131,7 @@ bool SearchingThread::analyzeWord(std::string Word)
 			}
 			break;
 		case SearchingState::ComparingWords:
-			if (Word[i] == WordToFind[PositionCounter++])
+			if (tolower(Word[i]) == tolower(WordToFind[PositionCounter++]))
 			{
 				if (PositionCounter == WordToFind.size())
 				{

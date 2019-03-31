@@ -56,13 +56,18 @@ std::string ThreadInfo::getFilePath()
 	return FilePath;
 }
 
+unsigned int ThreadInfo::getMatchsSize()
+{
+	return (unsigned int) MatchInfoQueue.size();
+}
+
 void ThreadInfo::printInfo()
 {
 	std::string ThreadInfoString= "[Thread " + std::to_string(ThreadNumber) + " start: " + std::to_string(StartLine) + " -  end: " + std::to_string(FinalLine) + "] ";
 
 	while (!MatchInfoQueue.empty())
 	{
-		std::cout << ThreadInfoString << MatchInfoQueue.front().getString()<<std::endl;
+		std::cout <<"\t"<< ThreadInfoString << MatchInfoQueue.front().getString()<<std::endl;
 		MatchInfoQueue.pop();
 	}
 }

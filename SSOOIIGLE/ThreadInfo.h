@@ -19,6 +19,7 @@ public:
 	unsigned int getFinalLine();
 	std::string getFilePath();
 	inline std::string getWordToFind() { return WordToFind; }
+	unsigned int getMatchsSize();
 
 	void printInfo();
 	void operator =(ThreadInfo &Thr);
