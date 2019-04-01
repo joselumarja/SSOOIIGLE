@@ -6,6 +6,8 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
+#include <locale>
+#include <codecvt>
 
 SearchingThread::SearchingThread(ThreadInfo* ThrInfo, std::mutex *Mutex)
 {	
@@ -21,10 +23,12 @@ void SearchingThread::operator()()
 
 void SearchingThread::initTask()
 {
-	std::ifstream File;
-	std::string Buffer;
+	std::wifstream File;
+	std::wstring Buffer;
 	unsigned int Line = (*ThrInfo).getStartLine();
 	unsigned int FinalLine = (*ThrInfo).getFinalLine();
+
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 
 	File.open((*ThrInfo).getFilePath(), std::ios::in);
 
@@ -52,7 +56,7 @@ SearchingThread::~SearchingThread()
 {
 }
 
-void SearchingThread::createMatch(std::string PreviousWord, std::string MatchingWord, std::string NextWord)
+void SearchingThread::createMatch(std::wstring PreviousWord, std::wstring MatchingWord, std::wstring NextWord)
 {
 	MatchInfo Match(CurrentLine, PreviousWord, MatchingWord, NextWord);
 
@@ -61,18 +65,20 @@ void SearchingThread::createMatch(std::string PreviousWord, std::string Matching
 	(*ThrInfo).addToMatchs(Match);
 }
 
-void SearchingThread::analyzeLine(std::string Line)
+void SearchingThread::analyzeLine(std::wstring Line)
 {
-	std::string PreviousWord = "";
-	std::string MatchingWord;
+	std::wstring PreviousWord = L"",Temp;
+	std::wstring MatchingWord;
 	bool FindedWord = false;
 
 	unsigned int i = 0;
-	std::istringstream StringStream(Line);
-	std::istream_iterator<std::string> StringIterator(StringStream);
-	std::vector<std::string> StringsVector(StringIterator, std::istream_iterator<std::string>());
+	std::wistringstream StringStream(Line);
+	std::vector<std::wstring> StringsVector;
 
-	for(std::string Word : StringsVector)
+	while (std::getline(StringStream, Temp, L' '))
+		StringsVector.push_back(Temp);
+
+	for(std::wstring Word : StringsVector)
 	{
 		if (FindedWord)
 		{
@@ -94,18 +100,18 @@ void SearchingThread::analyzeLine(std::string Line)
 
 	if (FindedWord)
 	{
-		createMatch(PreviousWord, MatchingWord, "");
+		createMatch(PreviousWord, MatchingWord, L"");
 	}
 	
 }
 
-bool SearchingThread::analyzeWord(std::string Word)
+bool SearchingThread::analyzeWord(std::wstring Word)
 {
 	unsigned int PositionCounter = 0;
-	std::string WordToFind = (*ThrInfo).getWordToFind();
+	std::wstring WordToFind = (*ThrInfo).getWordToFind();
 	SearchingState State = SearchingState::WrongWord;
 
-	if (tolower(Word[0]) == tolower(WordToFind[0]))
+	if (tolower((char)Word[0]) == tolower((char)WordToFind[0]) || isTheSameCharacterWithAccent(Word[0], WordToFind[0]))
 	{
 		State = SearchingState::ComparingWords;
 		PositionCounter++;
@@ -120,7 +126,7 @@ bool SearchingThread::analyzeWord(std::string Word)
 		switch (State) 
 		{
 		case SearchingState::AllowedCharacter:
-			if (tolower(Word[i]) == tolower(WordToFind[PositionCounter]))
+			if (tolower((char)Word[i]) == tolower((char)WordToFind[PositionCounter]) || isTheSameCharacterWithAccent(Word[i],WordToFind[PositionCounter]))
 			{
 				State = SearchingState::ComparingWords;
 				PositionCounter++;
@@ -131,9 +137,9 @@ bool SearchingThread::analyzeWord(std::string Word)
 			}
 			break;
 		case SearchingState::ComparingWords:
-			if (tolower(Word[i]) == tolower(WordToFind[PositionCounter++]))
+			if (tolower((char)Word[i]) == tolower((char)WordToFind[PositionCounter]) || isTheSameCharacterWithAccent(Word[i], WordToFind[PositionCounter]))
 			{
-				if (PositionCounter == WordToFind.size())
+				if (++PositionCounter == WordToFind.size())
 				{
 					State = SearchingState::PatternFinded;
 				}

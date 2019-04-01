@@ -2,7 +2,7 @@
 #include "MatchInfo.h"
 
 
-MatchInfo::MatchInfo(int Line, std::string PreviousWord, std::string MatchingWord, std::string NextWord)
+MatchInfo::MatchInfo(int Line, std::wstring PreviousWord, std::wstring MatchingWord, std::wstring NextWord)
 {
 	this->Line = Line;
 	this->PreviousWord = PreviousWord;
@@ -15,7 +15,7 @@ MatchInfo::~MatchInfo()
 {
 }
 
-std::string MatchInfo::getString()
+std::wstring MatchInfo::getString()
 {
-	return std::string(":: line " + std::to_string(Line) + ":: ... " + PreviousWord + " " + MatchingWord + " " + NextWord + " ...");
+	return std::wstring(L":: line " + std::to_wstring(Line) + L":: ... " + PreviousWord + L" " + MatchingWord + L" " + NextWord + L" ...");
 }

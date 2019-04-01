@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "ThreadInfo.h"
+#include <Windows.h>
 
-ThreadInfo::ThreadInfo(unsigned int ThreadNumbe, unsigned int StartLine, unsigned int FinalLine, std::string FilePath, std::string WordToFind)
+ThreadInfo::ThreadInfo(unsigned int ThreadNumbe, unsigned int StartLine, unsigned int FinalLine, std::string FilePath, std::wstring WordToFind)
 {
 	ThreadNumber = ThreadNumbe;
 	this->StartLine = StartLine;
@@ -11,7 +12,7 @@ ThreadInfo::ThreadInfo(unsigned int ThreadNumbe, unsigned int StartLine, unsigne
 	MatchInfoQueue = std::queue<MatchInfo>();
 }
 
-ThreadInfo::ThreadInfo(unsigned int ThreadNumber, unsigned int StartLine, unsigned int FinalLine, std::string FilePath, std::string WordToFind, std::vector<char> & AllowedCharacterList)
+ThreadInfo::ThreadInfo(unsigned int ThreadNumber, unsigned int StartLine, unsigned int FinalLine, std::string FilePath, std::wstring WordToFind, std::vector<wchar_t> & AllowedCharacterList)
 {
 	this->ThreadNumber = ThreadNumber;
 	this->StartLine = StartLine;
@@ -63,16 +64,16 @@ unsigned int ThreadInfo::getMatchsSize()
 
 void ThreadInfo::printInfo()
 {
-	std::string ThreadInfoString= "[Thread " + std::to_string(ThreadNumber) + " start: " + std::to_string(StartLine) + " -  end: " + std::to_string(FinalLine) + "] ";
+	std::wstring ThreadInfoString= L"[Thread " + std::to_wstring(ThreadNumber) + L" start: " + std::to_wstring(StartLine) + L" -  end: " + std::to_wstring(FinalLine) + L"] ";
 
 	while (!MatchInfoQueue.empty())
 	{
-		std::cout <<"\t"<< ThreadInfoString << MatchInfoQueue.front().getString()<<std::endl;
+		std::wcout <<L"\t"+ ThreadInfoString + MatchInfoQueue.front().getString() + L"\n";
 		MatchInfoQueue.pop();
 	}
 }
 
-const bool ThreadInfo::isAAllowedCharacter(char charToCheck)
+const bool ThreadInfo::isAAllowedCharacter(wchar_t charToCheck)
 {
 	for (unsigned int i = 0; i < AllowedCharacterList.size(); i++)
 	{

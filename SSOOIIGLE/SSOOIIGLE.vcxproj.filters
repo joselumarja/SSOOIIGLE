@@ -13,22 +13,37 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de origen\Searching">
+      <UniqueIdentifier>{f98198b1-5244-44d3-932c-dd0edff9fe52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Libraries">
+      <UniqueIdentifier>{2e9ceff3-00dd-4149-befb-fae2db7c4726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Searching">
+      <UniqueIdentifier>{d57860b4-c4e0-4584-980b-5af6e350bc77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Libraries">
+      <UniqueIdentifier>{e1018dc3-a63c-45d0-bd15-fb5721eb849e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ThreadInfo.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="MatchInfo.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Searching</Filter>
     </ClInclude>
     <ClInclude Include="SearchingThread.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Searching</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadInfo.h">
+      <Filter>Archivos de encabezado\Searching</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintColorText.h">
+      <Filter>Archivos de encabezado\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Archivos de encabezado\Libraries</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -38,17 +53,20 @@
     <ClCompile Include="SSOOIIGLE.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="ThreadInfo.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="MatchInfo.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\Searching</Filter>
     </ClCompile>
     <ClCompile Include="SearchingThread.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\Searching</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadInfo.cpp">
+      <Filter>Archivos de origen\Searching</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintColorText.cpp">
+      <Filter>Archivos de origen\Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Archivos de origen\Libraries</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

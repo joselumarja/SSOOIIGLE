@@ -5,13 +5,13 @@
 class MatchInfo
 {
 public:
-	MatchInfo(int Line, std::string PreviousWord, std::string MatchingWord, std::string NextWord);
+	MatchInfo(int Line, std::wstring PreviousWord, std::wstring MatchingWord, std::wstring NextWord);
 	~MatchInfo();
-	std::string getString();
+	std::wstring getString();
 private:
 	int Line;
-	std::string PreviousWord;
-	std::string MatchingWord;
-	std::string NextWord;
+	std::wstring PreviousWord;
+	std::wstring MatchingWord;
+	std::wstring NextWord;
 };
 

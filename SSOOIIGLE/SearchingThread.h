@@ -24,9 +24,9 @@ private:
 	std::mutex *Mutex;
 	int CurrentLine;
 
-	void createMatch(std::string PreviousWord, std::string MatchingWord, std::string NextWord);
-	void analyzeLine(std::string Line);
-	bool analyzeWord(std::string Word);
+	void createMatch(std::wstring PreviousWord, std::wstring MatchingWord, std::wstring NextWord);
+	void analyzeLine(std::wstring Line);
+	bool analyzeWord(std::wstring Word);
 
 };
 
