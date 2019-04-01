@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Utilities.h"
-
 #include <fstream>
 #include <iostream>
 

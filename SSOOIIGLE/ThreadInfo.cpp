@@ -64,11 +64,13 @@ unsigned int ThreadInfo::getMatchsSize()
 
 void ThreadInfo::printInfo()
 {
-	std::wstring ThreadInfoString= L"[Thread " + std::to_wstring(ThreadNumber) + L" start: " + std::to_wstring(StartLine) + L" -  end: " + std::to_wstring(FinalLine) + L"] ";
-
+	std::string Temp, ThreadInfoString= "[Thread " + std::to_string(ThreadNumber)  + " start: " + std::to_string(StartLine) + " -  end: " + std::to_string(FinalLine) + "] ";
+	
 	while (!MatchInfoQueue.empty())
 	{
-		std::wcout <<L"\t"+ ThreadInfoString + MatchInfoQueue.front().getString() + L"\n";
+		std::wstring ResultString(MatchInfoQueue.front().getString());
+		Temp = std::string(ResultString.begin(), ResultString.end());
+		std::cout << "\t"<< ThreadInfoString <<Temp << "\n";
 		MatchInfoQueue.pop();
 	}
 }
